@@ -46,3 +46,27 @@ func = function(source: string, subString: string) {
 		return true
 	}
 }
+
+interface StringArray {
+	[index: number]: string
+}
+
+interface aNewPerson {
+	name: string
+	age: number
+	hungry?: boolean
+}
+
+class Greeter {
+	greeting: string
+	constructor(message: string) {
+		this.greeting = message
+	}
+	greet() {
+		return 'Hello' + this.greeting
+	}
+}
+
+var greeter = new Greeter('Mother')
+
+document.body.innerHTML = greeter.greet()
