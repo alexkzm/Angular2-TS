@@ -70,3 +70,41 @@ class Greeter {
 var greeter = new Greeter('Mother')
 
 document.body.innerHTML = greeter.greet()
+
+class Person {
+	name: string
+	age: number
+	favoriteThing: string
+	married: boolean
+	gender?: string
+	constructor(name: string, age: number, faveThing: string, married: boolean, gender?: string) {
+		this.name = name
+		this.age = age
+		this.favoriteFood = faveFood
+		this.married = married
+		if(gender) {
+			this.gender = gender
+		}
+	}
+	sayHello() {
+		console.log('Hello, my name is ' + this.name)
+	}
+}
+
+interface thePerson {
+	name: string
+	age: number
+	favoriteThing: string
+	married: boolean
+	gender?: string
+	sayHello(): void
+}
+
+var me = new Person('Shurik', 18, 'air', false)
+
+function changeFave(person: thePerson, food: string): thePerson {
+	person.favoriteFood = food
+	return person
+}
+
+me = changeFave(me, 'water')
