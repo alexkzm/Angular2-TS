@@ -108,3 +108,31 @@ function changeFave(person: thePerson, food: string): thePerson {
 }
 
 me = changeFave(me, 'water')
+
+///
+import {{ Component }} from 'angular2/core'
+import {{ CoursesComponent }} form './courses.component'
+
+@Component({
+	selector: 'my-app',
+	template: '
+				<h1> Hello </h1>
+				{{ title }}
+				<ul>
+					<li *ngFor="#courses of courses">
+						{{ course }}
+					</li>
+				</ul>
+				',
+	providers: [CourseService]
+	directives: [CourseComponent] 
+})
+
+export class AppComponent { 
+	title: string = 'The Title'
+	courses
+
+	constructor(courseService, CourseService) {
+		this.courses = courseService.getCourses()
+	}
+}
