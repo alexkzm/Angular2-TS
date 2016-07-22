@@ -16,7 +16,7 @@ boostrap(AppComponent)
 	</div>
 	<table>
 	<tbody>
-	<tr>
+	<tr *ng-for="tick">
 	</tr>
 	</tbody>
 	</table>
@@ -26,9 +26,18 @@ boostrap(AppComponent)
 	pipes: [BxPipe],
 	providers: [TicketLoader]
 })
+
 export class TypeAhead {
 	@Output('selected') selected = new EventEmitter()
 	clear = new EventEmitter()
 	ticker = new Control()
 	tickers: Observable<any[]>
+}
+
+constructor(http:Http, tickLoader:TickLoader){
+	this.tickers = Observable.from((<EventEmitter>this.ticker.valueChanges).toRx())
+	.debounceTime(300)
+	.distinctUntilChanged() 
+	.swithMap((val:string) => tickerLoader.load(val))
+	.merge(this.clear.toRx().mapTo([]))
 }
