@@ -23,5 +23,12 @@ boostrap(AppComponent)
 	'
 	directives: [FORM_DIRECTIVES, NgFor, NfIf],
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	pipes: [BxPipe]
+	pipes: [BxPipe],
+	providers: [TicketLoader]
 })
+export class TypeAhead {
+	@Output('selected') selected = new EventEmitter()
+	clear = new EventEmitter()
+	ticker = new Control()
+	tickers: Observable<any[]>
+}
