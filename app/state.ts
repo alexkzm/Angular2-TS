@@ -44,8 +44,31 @@ export class RxWebSocket {
 			}
 		}
 		
-		})
+		socket.onclose = (e) => {
+			if(e.wasClean) {
+			 subscriber.complete()
+			 if(this.didClose){
+			  this.didClose(e)
+			 }
+			}else {
+			subscriber.error(e)
+		    }
+		}
+
+		socket.onerror = (e) => subscriber.error(e)
+		socket.onmessage = (e) => {
+			subscriber.next(this.selector(e))
+		}
+
+		return () => {
+			socket.close()
+			this.socket = null
+			this._out = null
+		}
+
+		).share()
 	}
+		return this._out
 	}
 }
 
