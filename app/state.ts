@@ -68,7 +68,30 @@ export class RxWebSocket {
 
 		).share()
 	}
-		return this._out
+	}
+	return this._out
+}
+
+send(message:any) {
+	const data = typeof message === 'string' ? message : JSON.stringify(message)
+	if(this.socket && this.socket.readyState === WebSocket.OPEN) {
+	  this.socket.send(data)
+	}else {
+	  this.meaasgeQueue.push(data)
 	}
 }
 
+get in(): Observer:<any> {
+	if(!this._in) {
+	  this._in = {
+	  	next: (message: any) => {
+	  		const data = typeof message === 'string' ? message : JSON.stringify(message)
+	if(this.socket && this.socket.readyState === WebSocket.OPEN) {
+	  this.socket.send(message)
+	}else {
+	  this.meaasgeQueue.push(message)
+	  	}
+	  },
+	  
+	}
+}
