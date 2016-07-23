@@ -92,6 +92,20 @@ get in(): Observer:<any> {
 	  this.meaasgeQueue.push(message)
 	  	}
 	  },
-	  
+	  error: (err: any) => {
+	    this.socket.close(3000, err)
+	    this.socket = null
+	  } 
+	}
+	return this._in
+}
+
+private flushMessages() {
+	const messageQueue = this.messageQueue
+	const socket = this.socket
+
+	while(messageQueue.length > 0 && socket.readyState === WebSocket.OPEN) {
+	  socket.send(messageQueue.shift())
 	}
 }
+
