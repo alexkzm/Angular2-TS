@@ -34,15 +34,34 @@ export class TickService {
 	}
 	}
 
-	getTicker(symbol: string): Observable<TickMessage> {
+	getTick(symbol: string): Observable<TickMessage> {
 	  const socket = this.socket
 	  return Observable.create(subscriber => {
 	  	const msgSub = socket.out
 	  	.filter(d => d.symbol === symbol)
 	  	.subscribe(subscriber)
 	  	socket.send({symbol, type: 'sub'})
+
+	  	return () => {
+	  	  console.log('unsub')
+	  	  socket.send({symbol, type: 'unsub'})
+	  	  msgSub.unsubscribe()
+	  	}
 	  	
 	  })
+	  .share()
 	}
+}
+
+interface Tick {
+	symbol: string
+	price: number
+	timestamp: number
+}
+
+export class Ticker {
+	prices: Observable<string>
+	recentTicks: Observable<Tick[]>
+	maxRecentTicks = 30
 }
 
